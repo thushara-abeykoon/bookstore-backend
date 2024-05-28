@@ -9,6 +9,7 @@ public class Validator {
     Author author;
 
     public Validator(Author author){
+        this.author = author;
     }
 
     private static final Pattern emailPattern = Pattern.compile("^[_A-Za-z0-9-+]+(.[_A-Za-z0-9-]+)*@"

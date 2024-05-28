@@ -25,4 +25,13 @@ public class AuthorController {
         return ResponseEntity.ok(author);
     }
 
+    @PutMapping(path = "updateAuthor/{id}")
+    public void updateAuthor(@RequestBody Author author, @PathVariable long id) {
+        authorService.updateAuthor(author, id);
+    }
+
+    @DeleteMapping(path = "deleteAuthor/{email}")
+    public void deleteAuthor(@PathVariable String email) {
+        authorService.deleteAuthor(email);
+    }
 }

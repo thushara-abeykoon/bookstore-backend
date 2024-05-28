@@ -7,7 +7,7 @@ public interface AuthorService {
 
     Author getAuthor(String email);
 
-    void updateAuthor(Author author);
+    void updateAuthor(Author author, Long id);
 
     void deleteAuthor(String email);
 }

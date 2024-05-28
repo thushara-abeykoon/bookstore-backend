@@ -5,13 +5,11 @@ import com.silva.bookstore.repository.AuthorRepository;
 import com.silva.bookstore.service.AuthorService;
 import com.silva.bookstore.service.util.InvalidCredentialFormatException;
 import com.silva.bookstore.service.util.Validator;
-import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.swing.text.html.Option;
-import java.rmi.NoSuchObjectException;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -28,10 +26,9 @@ public class AuthorServiceImpl implements AuthorService {
         if (authorOptional.isPresent())
             throw new IllegalStateException("email already exists");
 
-        if (!(  Validator.validateContactNo(author.getContactNo()) &&
-                Validator.validateEmail(author.getEmail()) &&
-                Validator.validateName(author.getFirstName()) &&
-                Validator.validateName(author.getLastName()))){
+        Validator validator = new Validator(author);
+
+        if (validator.isAuthorValid()){
             throw new InvalidCredentialFormatException("Invalid credential format detected");
         }
 
@@ -48,13 +45,39 @@ public class AuthorServiceImpl implements AuthorService {
     }
 
     @Override
-    public void updateAuthor(Author author) {
+    public void updateAuthor(Author newAuthor, Long id) {
 
+        // check author exists for the id
+        Author existingAuthor = authorRepository.findAuthorById(id).orElseThrow(() -> new NoSuchElementException("Unable to find author"));
+
+        // if author exists, check the new credentials are valid
+        Validator validator = new Validator(newAuthor);
+        if (validator.isAuthorValid()) {
+            throw new InvalidCredentialFormatException("Invalid credential format detected");
+        }
+
+        // check whether the new email already exists in the existing author
+        if (!Objects.equals(existingAuthor.getEmail(), newAuthor.getEmail())){
+            // if not check whether the new email exists in the database
+            Optional<Author> authorOptional = authorRepository.findAuthorByEmail(newAuthor.getEmail());
+
+            if (authorOptional.isPresent()) {
+                throw new IllegalStateException("email already exists");
+            }
+        }
+
+        // updating author
+        existingAuthor.setEmail(newAuthor.getEmail());
+        existingAuthor.setFirstName(newAuthor.getFirstName());
+        existingAuthor.setLastName(newAuthor.getLastName());
+        existingAuthor.setContactNo(newAuthor.getContactNo());
+
+        authorRepository.save(existingAuthor);
     }
 
     @Override
     public void deleteAuthor(String email) {
-        Optional<Author> authorOptional = authorRepository.findAuthorByEmail(email);
-        authorOptional.ifPresent(authorRepository::delete);
+        Author author = authorRepository.findAuthorByEmail(email).orElseThrow(() -> new NoSuchElementException("Unable to find author"));
+        authorRepository.delete(author);
     }
 }
