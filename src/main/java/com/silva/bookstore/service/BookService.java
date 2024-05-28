@@ -5,16 +5,16 @@ import com.silva.bookstore.model.Book;
 import java.util.List;
 
 public interface BookService {
-    public List<Book> getBooks();
+    List<Book> getBooks();
 
-    public List<Book> searchBooks(String isbn);
+    List<Book> searchBooks(String isbn);
 
-    public Book getBook(String isbn);
+    Book getBook(String isbn);
 
-    public void addBook(Book book);
+    void addBook(Book book);
 
-    public void updateBook(Book book);
+    void updateBook(Book book);
 
-    public void deleteBook(String isbn);
+    void deleteBook(String isbn);
 
 }
