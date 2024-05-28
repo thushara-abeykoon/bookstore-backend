@@ -4,7 +4,7 @@ import com.silva.bookstore.model.Author;
 import com.silva.bookstore.repository.AuthorRepository;
 import com.silva.bookstore.service.AuthorService;
 import com.silva.bookstore.service.util.InvalidCredentialFormatException;
-import com.silva.bookstore.service.util.Validator;
+import com.silva.bookstore.service.util.AuthorCredentialsValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,11 +22,10 @@ public class AuthorServiceImpl implements AuthorService {
     }
 
     public void addNewAuthor(Author author) {
-        Optional<Author> authorOptional = authorRepository.findAuthorByEmail(author.getEmail());
-        if (authorOptional.isPresent())
+        if (isAuthorExist(author.getEmail()))
             throw new IllegalStateException("email already exists");
 
-        Validator validator = new Validator(author);
+        AuthorCredentialsValidator validator = new AuthorCredentialsValidator(author);
 
         if (validator.isAuthorValid()){
             throw new InvalidCredentialFormatException("Invalid credential format detected");
@@ -51,7 +50,7 @@ public class AuthorServiceImpl implements AuthorService {
         Author existingAuthor = authorRepository.findAuthorById(id).orElseThrow(() -> new NoSuchElementException("Unable to find author"));
 
         // if author exists, check the new credentials are valid
-        Validator validator = new Validator(newAuthor);
+        AuthorCredentialsValidator validator = new AuthorCredentialsValidator(newAuthor);
         if (validator.isAuthorValid()) {
             throw new InvalidCredentialFormatException("Invalid credential format detected");
         }
@@ -80,4 +79,9 @@ public class AuthorServiceImpl implements AuthorService {
         Author author = authorRepository.findAuthorByEmail(email).orElseThrow(() -> new NoSuchElementException("Unable to find author"));
         authorRepository.delete(author);
     }
+
+    @Override
+    public boolean isAuthorExist(String email) {
+        return authorRepository.findAuthorByEmail(email).isPresent();
+        }
 }
