@@ -6,6 +6,7 @@ import com.silva.bookstore.service.AuthorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.swing.text.html.Option;
 import java.util.Optional;
 
 @Service
@@ -17,18 +18,17 @@ public class AuthorServiceImpl implements AuthorService {
         this.authorRepository = authorRepository;
     }
 
-    public void addNewAuthor(Author author) {
+    public Long addNewAuthor(Author author) {
         Optional<Author> authorOptional = authorRepository.findAuthorByEmail(author.getEmail());
         if (authorOptional.isPresent())
             throw new IllegalStateException("email already exists");
 
-
-
         authorRepository.save(author);
+        return author.getId();
     }
 
     @Override
-    public Author getAuthor(int id) {
+    public Author getAuthor(String email) {
         return null;
     }
 
@@ -38,7 +38,8 @@ public class AuthorServiceImpl implements AuthorService {
     }
 
     @Override
-    public void deleteAuthor(int id) {
-
+    public void deleteAuthor(String email) {
+        Optional<Author> authorOptional = authorRepository.findAuthorByEmail(email);
+        authorOptional.ifPresent(authorRepository::delete);
     }
 }
