@@ -18,6 +18,6 @@ public class AuthorController {
 
     @PostMapping(path = "/registerAuthor")
     public void addNewAuthor(@RequestBody Author author) {
-        authorService.addAuthor(author);
+        authorService.addNewAuthor(author);
     }
 }
