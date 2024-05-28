@@ -3,11 +3,11 @@ package com.silva.bookstore.service;
 import com.silva.bookstore.model.Author;
 
 public interface AuthorService {
-    void addNewAuthor(Author author);
+    Long addNewAuthor(Author author);
 
-    Author getAuthor(int id);
+    Author getAuthor(String email);
 
     void updateAuthor(Author author);
 
-    void deleteAuthor(int id);
+    void deleteAuthor(String email);
 }
