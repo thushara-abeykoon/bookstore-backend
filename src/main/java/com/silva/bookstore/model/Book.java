@@ -1,8 +1,6 @@
 package com.silva.bookstore.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,6 +18,8 @@ public class Book {
     private String isbn;
     private String category;
     private String title;
-    private String author;
+    @ManyToOne
+    @JoinColumn(name="author_id", referencedColumnName = "id")
+    private Author author;
 
 }
