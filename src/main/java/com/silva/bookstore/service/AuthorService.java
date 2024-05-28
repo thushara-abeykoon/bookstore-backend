@@ -10,4 +10,6 @@ public interface AuthorService {
     void updateAuthor(Author author, Long id);
 
     void deleteAuthor(String email);
+
+    boolean isAuthorExist(String email);
 }
