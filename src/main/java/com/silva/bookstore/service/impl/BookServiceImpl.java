@@ -1,6 +1,5 @@
 package com.silva.bookstore.service.impl;
 
-import com.silva.bookstore.model.Author;
 import com.silva.bookstore.model.Book;
 import com.silva.bookstore.repository.BookRepository;
 import com.silva.bookstore.service.AuthorService;
@@ -43,24 +42,32 @@ public class BookServiceImpl implements BookService {
         if (bookOptional.isPresent())
             throw new IllegalStateException("Book isbn already exists");
 
+        saveBook(book);
+    }
+
+    @Override
+    public void updateBook(Book book) {
+        Optional<Book> bookOptional = bookRepository.findByIsbn(book.getIsbn());
+        if (bookOptional.isEmpty())
+            throw new IllegalStateException("Book doesn't exist");
+
+        saveBook(book);
+    }
+
+    private void saveBook(Book book){
         if (!authorService.isAuthorExist(book.getAuthor().getEmail()))
             throw new IllegalStateException("Author doesn't exist");
 
-        BookCredentialsValidator bookCredentialsValidator = new BookCredentialsValidator(book);
-
-        if(!bookCredentialsValidator.isBookValid())
+        if(!new BookCredentialsValidator(book).isBookValid())
             throw new IllegalStateException("Book isbn or title doesn't valid");
 
         bookRepository.save(book);
     }
 
-    @Override
-    public void updateBook(Book book, String isbn) {
-
-    }
 
     @Override
     public void deleteBook(String isbn) {
-
+        Book book = bookRepository.findByIsbn(isbn).orElseThrow(()-> new IllegalStateException("Book doesn't exist"));
+        bookRepository.delete(book);
     }
 }

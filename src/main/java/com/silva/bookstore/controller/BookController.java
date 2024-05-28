@@ -2,10 +2,9 @@ package com.silva.bookstore.controller;
 
 import com.silva.bookstore.model.Book;
 import com.silva.bookstore.service.BookService;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping(path = "api/v1/book")
@@ -22,6 +21,24 @@ public class BookController {
         bookService.addBook(book);
     }
 
+    @GetMapping(path = "getAllBooks")
+    public List<Book> getAllBooks() {
+        return bookService.getBooks();
+    }
 
+    @GetMapping(path = "getBook/{bookId}")
+    public Book getBook(@PathVariable String bookId) {
+        return bookService.getBook(bookId);
+    }
+
+    @PutMapping(path = "updateBook")
+    public void updateBook(@RequestBody Book book) {
+        bookService.updateBook(book);
+    }
+
+    @DeleteMapping(path = "deleteBook/{bookId}")
+    public void deleteBook(@PathVariable String bookId) {
+        bookService.deleteBook(bookId);
+    }
 
 }
