@@ -62,7 +62,7 @@ public class AuthorServiceImpl implements AuthorService {
 
         // check whether the new email already exists in the existing author
         if (!Objects.equals(existingAuthor.getEmail(), newAuthor.getEmail())){
-            // if not check whether the new email exists in the database
+            // if not, check whether the new email exists in the database
             Optional<Author> authorOptional = authorRepository.findAuthorByEmail(newAuthor.getEmail());
 
             if (authorOptional.isPresent()) {
