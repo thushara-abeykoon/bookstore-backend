@@ -18,6 +18,7 @@ public class Book {
     private String isbn;
     private String category;
     private String title;
+    private int likeCount;
     @ManyToOne
     @JoinColumn(name="author_id", referencedColumnName = "id")
     private Author author;

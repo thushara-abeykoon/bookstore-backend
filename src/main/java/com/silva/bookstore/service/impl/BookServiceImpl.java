@@ -21,6 +21,13 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
+    public void likeBook(String isbn) {
+        Book book = bookRepository.findByIsbn(isbn).orElseThrow(()->new IllegalStateException("Book doesn't exist"));
+        book.setLikeCount(book.getLikeCount() + 1);
+        bookRepository.save(book);
+    }
+
+    @Override
     public List<Book> getBooks() {
         return bookRepository.findAll();
     }

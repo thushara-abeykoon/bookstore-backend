@@ -21,6 +21,11 @@ public class BookController {
         bookService.addBook(book);
     }
 
+    @PostMapping(path = "likeBook/{isbn}")
+    public void likeBook(@PathVariable String isbn) {
+        bookService.likeBook(isbn);
+    }
+
     @GetMapping(path = "getAllBooks")
     public List<Book> getAllBooks() {
         return bookService.getBooks();

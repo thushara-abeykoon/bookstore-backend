@@ -5,6 +5,9 @@ import com.silva.bookstore.model.Book;
 import java.util.List;
 
 public interface BookService {
+
+    void likeBook(String isbn);
+
     List<Book> getBooks();
 
     List<Book> searchBooks(String isbn);
