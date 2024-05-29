@@ -2,6 +2,8 @@ package com.silva.bookstore.controller;
 
 import com.silva.bookstore.model.Book;
 import com.silva.bookstore.service.BookService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,39 +18,43 @@ public class BookController {
         this.bookService = bookService;
     }
 
-    @PostMapping(path = "registerBook")
-    public void registerBook(@RequestBody Book book) {
+    @PostMapping(path = "register")
+    public ResponseEntity<String> registerBook(@RequestBody Book book) {
         bookService.addBook(book);
+        return new ResponseEntity<>("book registered", HttpStatus.CREATED);
     }
 
-    @PostMapping(path = "likeBook/{isbn}")
-    public void likeBook(@PathVariable String isbn) {
+    @PostMapping(path = "like/{isbn}")
+    public ResponseEntity<String> likeBook(@PathVariable String isbn) {
         bookService.likeBook(isbn);
+        return new ResponseEntity<>("book liked", HttpStatus.OK);
     }
 
-    @GetMapping(path = "getAllBooks")
+    @GetMapping(path = "getAll")
     public List<Book> getAllBooks() {
         return bookService.getBooks();
     }
 
-    @GetMapping(path = "getBook/{bookId}")
+    @GetMapping(path = "get/{bookId}")
     public Book getBook(@PathVariable String bookId) {
         return bookService.getBook(bookId);
     }
 
-    @GetMapping(path = "searchBook/{bookId}")
+    @GetMapping(path = "search/{bookId}")
     public List<Book> searchBook(@PathVariable String bookId) {
         return bookService.searchBooks(bookId);
     }
 
-    @PutMapping(path = "updateBook")
-    public void updateBook(@RequestBody Book book) {
+    @PutMapping(path = "update")
+    public ResponseEntity<String> updateBook(@RequestBody Book book) {
         bookService.updateBook(book);
+        return new ResponseEntity<>("book updated", HttpStatus.OK);
     }
 
-    @DeleteMapping(path = "deleteBook/{bookId}")
-    public void deleteBook(@PathVariable String bookId) {
+    @DeleteMapping(path = "delete/{bookId}")
+    public ResponseEntity<String> deleteBook(@PathVariable String bookId) {
         bookService.deleteBook(bookId);
+        return new ResponseEntity<>("book deleted", HttpStatus.OK);
     }
 
 }
