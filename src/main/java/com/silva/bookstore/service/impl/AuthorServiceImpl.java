@@ -1,13 +1,16 @@
 package com.silva.bookstore.service.impl;
 
 import com.silva.bookstore.model.Author;
+import com.silva.bookstore.model.Book;
 import com.silva.bookstore.repository.AuthorRepository;
 import com.silva.bookstore.service.AuthorService;
+import com.silva.bookstore.service.BookService;
 import com.silva.bookstore.service.util.InvalidCredentialFormatException;
 import com.silva.bookstore.service.util.AuthorCredentialsValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.Optional;
@@ -15,10 +18,12 @@ import java.util.Optional;
 @Service
 public class AuthorServiceImpl implements AuthorService {
     private final AuthorRepository authorRepository;
+    private final BookService bookService;
 
     @Autowired
-    public AuthorServiceImpl(AuthorRepository authorRepository) {
+    public AuthorServiceImpl(AuthorRepository authorRepository, BookService bookService) {
         this.authorRepository = authorRepository;
+        this.bookService = bookService;
     }
 
     public void addNewAuthor(Author author) {
@@ -77,6 +82,9 @@ public class AuthorServiceImpl implements AuthorService {
     @Override
     public void deleteAuthor(String email) {
         Author author = authorRepository.findAuthorByEmail(email).orElseThrow(() -> new NoSuchElementException("Unable to find author"));
+        List<Book> books = bookService.searchBooksByAuthor(author);
+        if (!books.isEmpty())
+            throw new IllegalStateException("Author cannot be deleted");
         authorRepository.delete(author);
     }
 

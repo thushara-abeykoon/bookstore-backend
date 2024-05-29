@@ -1,5 +1,6 @@
 package com.silva.bookstore.service.impl;
 
+import com.silva.bookstore.model.Author;
 import com.silva.bookstore.model.Book;
 import com.silva.bookstore.repository.BookRepository;
 import com.silva.bookstore.service.AuthorService;
@@ -35,6 +36,11 @@ public class BookServiceImpl implements BookService {
     @Override
     public List<Book> searchBooks(String isbn) {
         return bookRepository.findBooksByIsbnStartingWith(isbn);
+    }
+
+    @Override
+    public List<Book> searchBooksByAuthor(Author author) {
+        return bookRepository.findBooksByAuthor(author);
     }
 
     @Override
