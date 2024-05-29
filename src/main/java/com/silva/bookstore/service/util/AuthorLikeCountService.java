@@ -23,7 +23,7 @@ public class AuthorLikeCountService {
     }
 
 
-    @Scheduled(fixedRate = 1000)
+    @Scheduled(fixedRate = 300000)
     public void reportLikeCount() {
         List<Author> allAuthors = authorRepository.findAll();
         Stream<String> logStream = allAuthors.stream().map(author -> {
