@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@CrossOrigin(maxAge = 3600)
 @RequestMapping(path = "api/v1/author")
 public class AuthorController {
     private final AuthorService authorService;
