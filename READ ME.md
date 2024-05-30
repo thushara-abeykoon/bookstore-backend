@@ -11,7 +11,7 @@
 
 ## API Endpoints
 ### Register a new author
-```http://localhost:8080/api/v1/author/registerAuthor```
+```http://localhost:8080/api/v1/author/register```
 
 #### BODY
 
