@@ -44,6 +44,32 @@
 }
 ```
 
+### Get Author Details
+
+```http://localhost:8080/api/v1/author/getAll```
+
+#### RESPONSE
+
+```
+[
+    {
+        "id": 1,
+        "firstName": "thushara",
+        "lastName": "munidasa",
+        "email": "munidasa5@gmail.com",
+        "contactNo": "0712345678"
+    },
+    {
+        "id": 3,
+        "firstName": "kumarathunga",
+        "lastName": "munidasa",
+        "email": "munidasa2@gmail.com",
+        "contactNo": "0712345678"
+    }
+]
+```
+
+
 ### Update Author
 
 ```http://localhost:8080/api/v1/author/update/{authorId}```

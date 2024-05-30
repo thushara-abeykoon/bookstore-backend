@@ -1,16 +1,13 @@
 package com.silva.bookstore.service.impl;
 
 import com.silva.bookstore.model.Author;
-import com.silva.bookstore.model.Book;
 import com.silva.bookstore.repository.AuthorRepository;
 import com.silva.bookstore.service.AuthorService;
-import com.silva.bookstore.service.BookService;
 import com.silva.bookstore.service.util.InvalidCredentialFormatException;
 import com.silva.bookstore.service.util.AuthorCredentialsValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.sql.SQLException;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Objects;
@@ -45,6 +42,10 @@ public class AuthorServiceImpl implements AuthorService {
         if (authorByEmail.isEmpty())
             throw new NoSuchElementException("unable to found author");
         else return authorByEmail.get();
+    }
+
+    public List<Author> getAllAuthors() {
+        return authorRepository.findAll();
     }
 
     @Override
