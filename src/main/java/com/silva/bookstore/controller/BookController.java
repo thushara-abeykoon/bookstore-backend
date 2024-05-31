@@ -1,5 +1,6 @@
 package com.silva.bookstore.controller;
 
+import com.silva.bookstore.model.Author;
 import com.silva.bookstore.model.Book;
 import com.silva.bookstore.service.BookService;
 import org.springframework.http.HttpStatus;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin(maxAge = 3600)
 @RestController
 @RequestMapping(path = "api/v1/book")
 public class BookController {
@@ -43,6 +45,11 @@ public class BookController {
     @GetMapping(path = "search/{bookId}")
     public List<Book> searchBook(@PathVariable String bookId) {
         return bookService.searchBooks(bookId);
+    }
+
+    @GetMapping(path = "getByAuthor/{email}")
+    public List<Book> getByAuthor(@PathVariable String email) {
+        return bookService.searchBooksByAuthor(email);
     }
 
     @PutMapping(path = "update")

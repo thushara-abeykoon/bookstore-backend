@@ -39,6 +39,11 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
+    public List<Book> searchBooksByAuthor(String email) {
+        Author author = authorService.getAuthor(email);
+        return searchBooksByAuthor(author);
+    }
+
     public List<Book> searchBooksByAuthor(Author author) {
         return bookRepository.findBooksByAuthor(author);
     }
