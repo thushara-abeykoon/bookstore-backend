@@ -1,5 +1,6 @@
 package com.silva.bookstore.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -21,6 +22,7 @@ public class User {
     private String username;
     private String password;
     private boolean admin = false;
+    @JsonIgnore
     @ManyToMany
     @JoinTable(
             name = "user_book",

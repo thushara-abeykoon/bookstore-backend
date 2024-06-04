@@ -82,7 +82,7 @@ public class UserServiceImpl implements UserService {
         Book book = bookRepository.findById(bookIsbn).orElseThrow(()->new NoSuchElementException("Book not found"));
 
         user.getLikedBooks().add(book);
-        book.getLikedBooks().add(user);
+        book.getLikedUsers().add(user);
 
         userRepository.save(user);
         bookRepository.save(book);

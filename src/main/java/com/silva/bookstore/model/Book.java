@@ -1,5 +1,6 @@
 package com.silva.bookstore.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -25,5 +26,5 @@ public class Book {
     @JoinColumn(name="author_id", referencedColumnName = "id")
     private Author author;
     @ManyToMany(mappedBy = "likedBooks")
-    private Set<User> likedBooks = new HashSet<>();
+    private Set<User> likedUsers = new HashSet<>();
 }
