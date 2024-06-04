@@ -21,4 +21,11 @@ public class User {
     private String username;
     private String password;
     private boolean admin = false;
+    @ManyToMany
+    @JoinTable(
+            name = "user_book",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "book_isbn")
+    )
+    private Set<Book> likedBooks = new HashSet<>();
 }

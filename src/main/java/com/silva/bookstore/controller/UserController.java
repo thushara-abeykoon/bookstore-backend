@@ -21,9 +21,15 @@ public class UserController {
         return new ResponseEntity<>("User created successfully", HttpStatus.CREATED);
     }
 
-    @GetMapping("/get")
-    public ResponseEntity<User> getUser(@RequestParam long id) {
-        return ResponseEntity.ok(userService.getUser(id));
+    @PostMapping("/{userId}/like/{bookIsbn}")
+    public ResponseEntity<String> likeUser(@PathVariable Long userId, @PathVariable String bookIsbn) {
+        userService.likeBook(userId, bookIsbn);
+        return new ResponseEntity<>("book liked", HttpStatus.OK);
+    }
+
+    @PostMapping(path = "/login")
+    public ResponseEntity<String> login(@RequestBody User user) {
+        return userService.login(user);
     }
 
     @PutMapping("/update")

@@ -5,6 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import java.util.Set;
+
+import java.util.HashSet;
 
 
 @Entity
@@ -21,5 +24,6 @@ public class Book {
     @ManyToOne
     @JoinColumn(name="author_id", referencedColumnName = "id")
     private Author author;
-
+    @ManyToMany(mappedBy = "likedBooks")
+    private Set<User> likedBooks = new HashSet<>();
 }
