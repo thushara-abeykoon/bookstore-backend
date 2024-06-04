@@ -25,12 +25,6 @@ public class BookController {
         return new ResponseEntity<>("book registered", HttpStatus.CREATED);
     }
 
-    @PostMapping(path = "like/{isbn}")
-    public ResponseEntity<String> likeBook(@PathVariable String isbn) {
-        bookService.likeBook(isbn);
-        return new ResponseEntity<>("book liked", HttpStatus.OK);
-    }
-
     @GetMapping(path = "getAll")
     public List<Book> getAllBooks() {
         return bookService.getBooks();

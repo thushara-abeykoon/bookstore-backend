@@ -1,13 +1,10 @@
 package com.silva.bookstore.service;
 
-import com.silva.bookstore.model.Author;
 import com.silva.bookstore.model.Book;
 
 import java.util.List;
 
 public interface BookService {
-
-    void likeBook(String isbn);
 
     List<Book> getBooks();
 
