@@ -1,6 +1,5 @@
 package com.silva.bookstore.controller;
 
-import com.silva.bookstore.model.Author;
 import com.silva.bookstore.model.Book;
 import com.silva.bookstore.service.BookService;
 import org.springframework.http.HttpStatus;
