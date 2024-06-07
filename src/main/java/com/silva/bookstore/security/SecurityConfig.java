@@ -39,11 +39,6 @@ public class SecurityConfig {
                                 .requestMatchers(HttpMethod.POST).hasAuthority(ADMIN.name())
                                 .requestMatchers(HttpMethod.PUT).hasAuthority(ADMIN.name())
                                 .requestMatchers(HttpMethod.DELETE).hasAuthority(ADMIN.name())
-//                                .requestMatchers(HttpMethod.DELETE, "api/v1/").hasAuthority("WRITE")
-//                                .requestMatchers(HttpMethod.POST, "api/v1/").hasAuthority("WRITE")
-//                                .requestMatchers(HttpMethod.PUT, "api/v1/").hasAuthority("WRITE")
-//                                .requestMatchers(HttpMethod.GET, "api/v1").hasAnyRole(ADMIN.name(), USER.name())
-//                                .requestMatchers("api/v1/user/").permitAll()
                                 .anyRequest().authenticated()
                 ).httpBasic(Customizer.withDefaults()).build();
     }
