@@ -34,6 +34,11 @@ public class SecurityConfig {
                 .authorizeHttpRequests(
                         req-> req
                                 .requestMatchers("/api/v1/auth/**").permitAll()
+                                .requestMatchers(HttpMethod.GET).permitAll()
+                                .requestMatchers(HttpMethod.POST,"api/v1/book/{userId}/like/{bookIsbn}").hasAuthority(USER.name())
+                                .requestMatchers(HttpMethod.POST).hasAuthority(ADMIN.name())
+                                .requestMatchers(HttpMethod.PUT).hasAuthority(ADMIN.name())
+                                .requestMatchers(HttpMethod.DELETE).hasAuthority(ADMIN.name())
 //                                .requestMatchers(HttpMethod.DELETE, "api/v1/").hasAuthority("WRITE")
 //                                .requestMatchers(HttpMethod.POST, "api/v1/").hasAuthority("WRITE")
 //                                .requestMatchers(HttpMethod.PUT, "api/v1/").hasAuthority("WRITE")

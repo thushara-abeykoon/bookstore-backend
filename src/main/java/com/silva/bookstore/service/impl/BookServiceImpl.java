@@ -2,28 +2,47 @@ package com.silva.bookstore.service.impl;
 
 import com.silva.bookstore.model.Author;
 import com.silva.bookstore.model.Book;
+import com.silva.bookstore.model.UserEntity;
 import com.silva.bookstore.repository.BookRepository;
+import com.silva.bookstore.repository.UserRepository;
 import com.silva.bookstore.service.AuthorService;
 import com.silva.bookstore.service.BookService;
 import com.silva.bookstore.service.util.BookCredentialsValidator;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
 public class BookServiceImpl implements BookService {
     private final BookRepository bookRepository;
     private final AuthorService authorService;
+    private final UserRepository userRepository;
 
-    public BookServiceImpl(BookRepository bookRepository, AuthorService authorService) {
+    public BookServiceImpl(BookRepository bookRepository, AuthorService authorService, UserRepository userRepository) {
         this.bookRepository = bookRepository;
         this.authorService = authorService;
+        this.userRepository = userRepository;
     }
 
     @Override
     public List<Book> getBooks() {
         return bookRepository.findAll();
+    }
+
+    @Override
+    public void likeBook(Long userId, String bookIsbn) {
+        UserEntity user = userRepository.findById(userId).orElseThrow(()-> new NoSuchElementException("User doesn't exists"));
+        Book book = bookRepository.findByIsbn(bookIsbn).orElseThrow(()-> new NoSuchElementException("Book doesn't exists"));
+
+        user.getLikedBooks().add(book);
+        book.getLikedUsers().add(user);
+
+        userRepository.save(user);
+        bookRepository.save(book);
     }
 
     @Override

@@ -25,6 +25,12 @@ public class BookController {
         return new ResponseEntity<>("book registered", HttpStatus.CREATED);
     }
 
+    @PostMapping(path = "{userId}/like/{bookIsbn}")
+    public ResponseEntity<String> likeBook (@PathVariable("userId") Long userId, @PathVariable("bookIsbn") String bookIsbn) {
+        bookService.likeBook(userId,bookIsbn);
+        return new ResponseEntity<>(String.format("User %s liked Book %s", userId, bookIsbn), HttpStatus.CREATED);
+    }
+
     @GetMapping(path = "getAll")
     public List<Book> getAllBooks() {
         return bookService.getBooks();

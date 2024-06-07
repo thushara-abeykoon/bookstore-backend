@@ -8,6 +8,8 @@ public interface BookService {
 
     List<Book> getBooks();
 
+    void likeBook(Long userId, String bookIsbn);
+
     List<Book> searchBooks(String isbn);
 
     List<Book> searchBooksByAuthor(String author);
