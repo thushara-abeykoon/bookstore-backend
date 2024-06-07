@@ -3,7 +3,7 @@ package com.silva.bookstore.service.impl;
 import com.silva.bookstore.model.Author;
 import com.silva.bookstore.repository.AuthorRepository;
 import com.silva.bookstore.service.AuthorService;
-import com.silva.bookstore.service.util.InvalidCredentialFormatException;
+import com.silva.bookstore.exception.InvalidCredentialFormatException;
 import com.silva.bookstore.service.util.AuthorCredentialsValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

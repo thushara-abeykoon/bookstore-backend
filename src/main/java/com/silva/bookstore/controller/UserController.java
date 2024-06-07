@@ -1,5 +1,6 @@
 package com.silva.bookstore.controller;
 
+import com.silva.bookstore.dto.UserRequestDTO;
 import com.silva.bookstore.dto.UserResponseDTO;
 import com.silva.bookstore.service.UserService;
 import org.springframework.http.HttpStatus;
@@ -26,5 +27,17 @@ public class UserController {
     @GetMapping(path = "/getAll")
     public List<UserResponseDTO> getALlUsers() {
         return userService.getAll();
+    }
+
+    @PutMapping(path = "/update/{userId}")
+    public ResponseEntity<String> updateUser(@PathVariable("userId") Long userId, @RequestBody UserRequestDTO user) {
+        userService.updateUser(userId, user);
+        return new ResponseEntity<>("User updated", HttpStatus.OK);
+    }
+
+    @DeleteMapping(path = "/delete/{userId}")
+    public ResponseEntity<String> deleteUser(@PathVariable("userId") Long userId) {
+        userService.deleteUser(userId);
+        return new ResponseEntity<>("User deleted", HttpStatus.OK);
     }
 }
