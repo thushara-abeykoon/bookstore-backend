@@ -3,8 +3,7 @@ package com.silva.bookstore.service.impl;
 import com.silva.bookstore.dto.UserDTO;
 import com.silva.bookstore.model.UserEntity;
 import com.silva.bookstore.repository.UserRepository;
-import com.silva.bookstore.security.UserRoles;
-import com.silva.bookstore.service.UserService;
+import com.silva.bookstore.service.AuthService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -17,13 +16,13 @@ import org.springframework.stereotype.Service;
 import static com.silva.bookstore.security.UserRoles.USER;
 
 @Service
-public class UserServiceImpl implements UserService {
+public class AuthServiceImpl implements AuthService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
 
-    public UserServiceImpl (UserRepository userRepository, PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager) {
+    public AuthServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.authenticationManager = authenticationManager;
