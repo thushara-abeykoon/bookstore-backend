@@ -1,6 +1,5 @@
 package com.silva.bookstore.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,18 +10,17 @@ import java.util.Set;
 
 
 @Data
-@Entity
 @NoArgsConstructor
 @AllArgsConstructor
-public class User {
+@Entity
+@Table(name = "user")
+public class UserEntity {
     @Id
-    @GeneratedValue(generator = "sequence_generator", strategy = GenerationType.SEQUENCE)
-    @SequenceGenerator(name = "sequence_generator", sequenceName = "sequence_generator", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String username;
     private String password;
-    private boolean admin = false;
-    @JsonIgnore
+    private String role;
     @ManyToMany
     @JoinTable(
             name = "user_book",

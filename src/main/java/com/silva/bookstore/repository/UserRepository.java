@@ -1,10 +1,11 @@
 package com.silva.bookstore.repository;
 
-import com.silva.bookstore.model.User;
+import com.silva.bookstore.model.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 
-@Repository
-public interface UserRepository extends JpaRepository<User, Long> {
-    User findByUsername(String userName);
+import java.util.Optional;
+
+public interface UserRepository extends JpaRepository<UserEntity, Long> {
+    Optional<UserEntity> findByUsername(String username);
+    Boolean existsByUsername(String username);
 }

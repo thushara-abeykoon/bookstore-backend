@@ -25,6 +25,7 @@ public class Book {
     @ManyToOne
     @JoinColumn(name="author_id", referencedColumnName = "id")
     private Author author;
+    @JsonIgnore
     @ManyToMany(mappedBy = "likedBooks")
-    private Set<User> likedUsers = new HashSet<>();
+    private Set<UserEntity> likedUsers = new HashSet<>();
 }
