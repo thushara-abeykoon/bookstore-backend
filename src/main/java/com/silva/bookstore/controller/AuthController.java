@@ -1,6 +1,6 @@
 package com.silva.bookstore.controller;
 
-import com.silva.bookstore.dto.UserDTO;
+import com.silva.bookstore.dto.UserRequestDTO;
 import com.silva.bookstore.service.AuthService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,12 +19,12 @@ public class AuthController {
     }
 
     @PostMapping(path = "/register")
-    public ResponseEntity<String> register(@RequestBody UserDTO userDTO) {
-        return authService.register(userDTO);
+    public ResponseEntity<String> register(@RequestBody UserRequestDTO userRequestDTO) {
+        return authService.register(userRequestDTO);
     }
 
     @PostMapping(path = "/login")
-    public ResponseEntity<String> login(@RequestBody UserDTO userDTO) {
-        return authService.login(userDTO);
+    public ResponseEntity<String> login(@RequestBody UserRequestDTO userRequestDTO) {
+        return authService.login(userRequestDTO);
     }
 }
