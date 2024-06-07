@@ -1,6 +1,5 @@
 package com.silva.bookstore.service.impl;
 
-import com.silva.bookstore.controller.UserController;
 import com.silva.bookstore.dto.UserResponseDTO;
 import com.silva.bookstore.model.UserEntity;
 import com.silva.bookstore.repository.UserRepository;
@@ -14,11 +13,9 @@ import java.util.NoSuchElementException;
 @Service
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
-    private final UserController userController;
 
-    public UserServiceImpl(UserRepository userRepository, UserController userController) {
+    public UserServiceImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
-        this.userController = userController;
     }
 
     @Override
