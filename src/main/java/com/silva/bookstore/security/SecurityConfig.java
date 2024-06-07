@@ -36,6 +36,7 @@ public class SecurityConfig {
                                 .requestMatchers("/api/v1/auth/**").permitAll()
                                 .requestMatchers(HttpMethod.GET).permitAll()
                                 .requestMatchers(HttpMethod.POST,"api/v1/book/{userId}/like/{bookIsbn}").hasAuthority(USER.name())
+                                .requestMatchers(HttpMethod.GET,"api/v1/user/getAll").hasAuthority(ADMIN.name())
                                 .requestMatchers(HttpMethod.POST).hasAuthority(ADMIN.name())
                                 .requestMatchers(HttpMethod.PUT).hasAuthority(ADMIN.name())
                                 .requestMatchers(HttpMethod.DELETE).hasAuthority(ADMIN.name())
