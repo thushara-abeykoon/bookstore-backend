@@ -26,7 +26,7 @@ public class JWTService {
 
     public boolean isValid(String token, UserDetails user) {
         String username = extractUsername(token);
-        return username.equals(user.getUsername()) && isTokenExpired(token);
+        return username.equals(user.getUsername()) && !isTokenExpired(token);
     }
 
     public boolean isTokenExpired(String token) {
@@ -48,7 +48,7 @@ public class JWTService {
     public String generateToken (Authentication authentication) {
         String username = authentication.getName();
         Date currentDate = new Date();
-        Date expireDate = new Date(currentDate.getTime()+70000);
+        Date expireDate = new Date(currentDate.getTime()+700000000);
 
         return Jwts.builder()
                 .subject(username)
