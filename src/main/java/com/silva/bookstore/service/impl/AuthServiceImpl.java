@@ -1,5 +1,6 @@
 package com.silva.bookstore.service.impl;
 
+import com.silva.bookstore.dto.UserRegisterRequestDTO;
 import com.silva.bookstore.dto.AuthRequestDTO;
 import com.silva.bookstore.dto.AuthResponseDTO;
 import com.silva.bookstore.model.UserEntity;
@@ -33,7 +34,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public ResponseEntity<String> register(AuthRequestDTO userDTO) {
+    public ResponseEntity<String> register(UserRegisterRequestDTO userDTO) {
         if (userRepository.existsByUsername(userDTO.getUsername()))
             return new ResponseEntity<>("Username already exits", HttpStatus.BAD_REQUEST);
 
@@ -42,7 +43,7 @@ public class AuthServiceImpl implements AuthService {
         UserEntity user = new UserEntity();
         user.setUsername(userDTO.getUsername());
         user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
-        user.setRole(USER.name());
+        user.setRole(userDTO.getRole());
 
         userRepository.save(user);
 

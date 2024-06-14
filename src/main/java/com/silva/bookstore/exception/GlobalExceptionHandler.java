@@ -4,6 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import io.jsonwebtoken.security.SignatureException;
 import org.springframework.web.context.request.WebRequest;
 
 import javax.naming.AuthenticationException;
@@ -29,6 +30,11 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(AuthenticationException.class)
     public ResponseEntity<String> handleAuthenticationException(final AuthenticationException ex, WebRequest request) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(SignatureException.class)
+    public ResponseEntity<String> handleSignatureException(final SignatureException ex, WebRequest  request) {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.UNAUTHORIZED);
     }
 

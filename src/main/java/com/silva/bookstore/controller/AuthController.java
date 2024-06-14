@@ -2,6 +2,7 @@ package com.silva.bookstore.controller;
 
 import com.silva.bookstore.dto.AuthRequestDTO;
 import com.silva.bookstore.dto.AuthResponseDTO;
+import com.silva.bookstore.dto.UserRegisterRequestDTO;
 import com.silva.bookstore.service.AuthService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,8 +21,8 @@ public class AuthController {
     }
 
     @PostMapping(path = "/register")
-    public ResponseEntity<String> register(@RequestBody AuthRequestDTO authRequestDTO) {
-        return authService.register(authRequestDTO);
+    public ResponseEntity<String> register(@RequestBody UserRegisterRequestDTO userRegisterRequestDTO) {
+        return authService.register(userRegisterRequestDTO);
     }
 
     @PostMapping(path = "/login")
