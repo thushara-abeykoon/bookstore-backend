@@ -1,8 +1,10 @@
 package com.silva.bookstore.service.impl;
 
 import com.silva.bookstore.dto.AuthRequestDTO;
+import com.silva.bookstore.dto.AuthResponseDTO;
 import com.silva.bookstore.model.UserEntity;
 import com.silva.bookstore.repository.UserRepository;
+import com.silva.bookstore.security.JWTService;
 import com.silva.bookstore.service.AuthService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,11 +23,13 @@ public class AuthServiceImpl implements AuthService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
+    private final JWTService jwtService;
 
-    public AuthServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager) {
+    public AuthServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager, JWTService jwtService) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.authenticationManager = authenticationManager;
+        this.jwtService = jwtService;
     }
 
     @Override
@@ -46,10 +50,13 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public ResponseEntity<String> login(AuthRequestDTO user) {
+    public ResponseEntity<AuthResponseDTO> login(AuthRequestDTO user) {
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        return new ResponseEntity<>("User Signed In!", HttpStatus.OK);
+
+        String token = jwtService.generateToken(authentication);
+
+        return new ResponseEntity<>(new AuthResponseDTO(token, "User authenticated!"), HttpStatus.OK);
     }
 }
