@@ -19,9 +19,14 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping(path = "/get/{userId}")
-    public ResponseEntity<UserResponseDTO> getUser(@PathVariable("userId") Long userId) {
-        return new ResponseEntity<>(userService.getOne(userId), HttpStatus.OK);
+    @GetMapping(path = "/get/by-id/{userId}")
+    public UserResponseDTO getUser(@PathVariable("userId") Long userId) {
+        return userService.getById(userId);
+    }
+
+    @GetMapping(path = "get/by-username/{username}")
+    public UserResponseDTO getUser(@PathVariable("username") String username) {
+        return userService.getByUsername(username);
     }
 
     @GetMapping(path = "/getAll")
