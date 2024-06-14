@@ -16,6 +16,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import static com.silva.bookstore.security.UserRoles.ADMIN;
 import static com.silva.bookstore.security.UserRoles.USER;
@@ -36,12 +39,13 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
          return http
                 .csrf(AbstractHttpConfigurer::disable)
+                .cors(cors->cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(
                         req-> req
                                 .requestMatchers("/api/v1/auth/**").permitAll()
                                 .requestMatchers(HttpMethod.GET).permitAll()
                                 .requestMatchers(HttpMethod.POST,"api/v1/book/{userId}/like/{bookIsbn}").hasAuthority(USER.name())
-                                .requestMatchers(HttpMethod.GET,"api/v1/user/getAll").hasAuthority(ADMIN.name())
+                                .requestMatchers(HttpMethod.GET,"api/v1/user/getAll").hasAnyAuthority(ADMIN.name(), USER.name())
                                 .requestMatchers(HttpMethod.POST).hasAuthority(ADMIN.name())
                                 .requestMatchers(HttpMethod.PUT).hasAuthority(ADMIN.name())
                                 .requestMatchers(HttpMethod.DELETE).hasAuthority(ADMIN.name())
@@ -61,5 +65,18 @@ public class SecurityConfig {
     @Bean
     public PasswordEncoder passwordEncoder () {
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.addAllowedHeader("*");
+        configuration.addAllowedMethod("*");
+        configuration.addAllowedOrigin("http://localhost:3000");
+        configuration.setAllowCredentials(true);
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
     }
 }
