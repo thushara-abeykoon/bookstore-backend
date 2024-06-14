@@ -1,20 +1,21 @@
 package com.silva.bookstore.service;
 
+import com.silva.bookstore.dto.BookResponseDTO;
 import com.silva.bookstore.model.Book;
 
 import java.util.List;
 
 public interface BookService {
 
-    List<Book> getBooks();
+    List<BookResponseDTO> getBooks();
 
     void likeBook(Long userId, String bookIsbn);
 
-    List<Book> searchBooks(String isbn);
+    List<BookResponseDTO> searchBooks(String isbn);
 
-    List<Book> searchBooksByAuthor(String author);
+    List<BookResponseDTO> searchBooksByAuthor(String author);
 
-    Book getBook(String isbn);
+    BookResponseDTO getBook(String isbn);
 
     void addBook(Book book);
 

@@ -1,5 +1,6 @@
 package com.silva.bookstore.service.impl;
 
+import com.silva.bookstore.dto.BookResponseDTO;
 import com.silva.bookstore.model.Author;
 import com.silva.bookstore.model.Book;
 import com.silva.bookstore.model.UserEntity;
@@ -8,10 +9,9 @@ import com.silva.bookstore.repository.UserRepository;
 import com.silva.bookstore.service.AuthorService;
 import com.silva.bookstore.service.BookService;
 import com.silva.bookstore.service.util.BookCredentialsValidator;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -29,8 +29,17 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public List<Book> getBooks() {
-        return bookRepository.findAll();
+    public List<BookResponseDTO> getBooks() {
+        List<Book> allBooks = bookRepository.findAll();
+        return getBookResponseDTOList(allBooks);
+    }
+
+    private List<BookResponseDTO> getBookResponseDTOList(List<Book> books) {
+        List<BookResponseDTO> bookResponseList = new ArrayList<>();
+        books.forEach(book -> {
+            bookResponseList.add(new BookResponseDTO(book.getIsbn(), book.getCategory(), book.getTitle(), book.getLikedUsers().size(), book.getAuthor()));
+        } );
+        return bookResponseList;
     }
 
     @Override
@@ -46,14 +55,16 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public List<Book> searchBooks(String isbn) {
-        return bookRepository.findBooksByIsbnStartingWith(isbn);
+    public List<BookResponseDTO> searchBooks(String isbn) {
+        List<Book> booksStartWithIsbn = bookRepository.findBooksByIsbnStartingWith(isbn);
+        return getBookResponseDTOList(booksStartWithIsbn);
     }
 
     @Override
-    public List<Book> searchBooksByAuthor(String email) {
+    public List<BookResponseDTO> searchBooksByAuthor(String email) {
         Author author = authorService.getAuthor(email);
-        return searchBooksByAuthor(author);
+        List<Book> booksByAuthor = searchBooksByAuthor(author);
+        return getBookResponseDTOList(booksByAuthor);
     }
 
     public List<Book> searchBooksByAuthor(Author author) {
@@ -61,9 +72,9 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public Book getBook(String isbn) {
-        Optional<Book> book = bookRepository.findByIsbn(isbn);
-        return book.orElse(null);
+    public BookResponseDTO getBook(String isbn) {
+        Book book = bookRepository.findByIsbn(isbn).orElseThrow(()->new NoSuchElementException("Book doesn't exists"));
+        return new BookResponseDTO(book.getIsbn(), book.getCategory(), book.getTitle(), book.getLikedUsers().size(), book.getAuthor());
     }
 
     @Override
