@@ -26,13 +26,13 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserResponseDTO getById(Long userId) {
         UserEntity user = userRepository.findById(userId).orElseThrow(() -> new NoSuchElementException("User doesn't exists"));
-        return new UserResponseDTO(user.getId(), user.getUsername(), user.getRole());
+        return new UserResponseDTO(user.getId(), user.getUsername(), user.getRole(), user.getLikedBooks());
     }
 
     @Override
     public UserResponseDTO getByUsername(String username) {
         UserEntity user = userRepository.findByUsername(username).orElseThrow(()-> new NoSuchElementException(("User doesn't exists")));
-        return new UserResponseDTO(user.getId(), user.getUsername(), user.getRole());
+        return new UserResponseDTO(user.getId(), user.getUsername(), user.getRole(), user.getLikedBooks());
     }
 
     @Override
