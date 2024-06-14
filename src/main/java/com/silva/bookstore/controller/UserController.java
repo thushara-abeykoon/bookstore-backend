@@ -29,7 +29,7 @@ public class UserController {
         return userService.getByUsername(username);
     }
 
-    @GetMapping(path = "/getAll")
+    @GetMapping(path = "/get-all")
     public List<UserResponseDTO> getALlUsers() {
         return userService.getAll();
     }

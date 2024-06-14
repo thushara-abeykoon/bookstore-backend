@@ -24,7 +24,7 @@ public class AuthorController {
         return new ResponseEntity<>("registration successful", HttpStatus.CREATED);
     }
 
-    @GetMapping(path = "/getAll")
+    @GetMapping(path = "/get-all")
     public List<Author> getAllAuthors() {
         return authorService.getAllAuthors();
     }
