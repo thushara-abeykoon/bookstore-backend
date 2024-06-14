@@ -52,12 +52,14 @@ public class BookController {
         return bookService.searchBooksByAuthor(email);
     }
 
+    // has to update all the request bodies with book request dto
     @PutMapping(path = "update")
     public ResponseEntity<String> updateBook(@RequestBody Book book) {
         bookService.updateBook(book);
         return new ResponseEntity<>("book updated", HttpStatus.OK);
     }
 
+    // has to update
     @DeleteMapping(path = "delete/{bookIsbn}")
     public ResponseEntity<String> deleteBook(@PathVariable String bookIsbn) {
         bookService.deleteBook(bookIsbn);

@@ -1,9 +1,11 @@
 package com.silva.bookstore.service.impl;
 
+import com.silva.bookstore.dto.AuthorResponseDTO;
 import com.silva.bookstore.dto.BookResponseDTO;
 import com.silva.bookstore.model.Author;
 import com.silva.bookstore.model.Book;
 import com.silva.bookstore.model.UserEntity;
+import com.silva.bookstore.repository.AuthorRepository;
 import com.silva.bookstore.repository.BookRepository;
 import com.silva.bookstore.repository.UserRepository;
 import com.silva.bookstore.service.AuthorService;
@@ -19,13 +21,13 @@ import java.util.Optional;
 @Service
 public class BookServiceImpl implements BookService {
     private final BookRepository bookRepository;
-    private final AuthorService authorService;
     private final UserRepository userRepository;
+    private final AuthorRepository authorRepository;
 
-    public BookServiceImpl(BookRepository bookRepository, AuthorService authorService, UserRepository userRepository) {
+    public BookServiceImpl(BookRepository bookRepository, UserRepository userRepository, AuthorRepository authorRepository) {
         this.bookRepository = bookRepository;
-        this.authorService = authorService;
         this.userRepository = userRepository;
+        this.authorRepository = authorRepository;
     }
 
     @Override
@@ -37,9 +39,22 @@ public class BookServiceImpl implements BookService {
     private List<BookResponseDTO> getBookResponseDTOList(List<Book> books) {
         List<BookResponseDTO> bookResponseList = new ArrayList<>();
         books.forEach(book -> {
-            bookResponseList.add(new BookResponseDTO(book.getIsbn(), book.getCategory(), book.getTitle(), book.getLikedUsers().size(), book.getAuthor()));
+            bookResponseList.add(convertToBookResponseDTO(book));
         } );
         return bookResponseList;
+    }
+
+    private BookResponseDTO convertToBookResponseDTO(Book book){
+        return new BookResponseDTO(
+                book.getIsbn(),
+                book.getCategory(),
+                book.getTitle(),
+                book.getLikedUsers().size(),
+                new AuthorResponseDTO(  book.getAuthor().getId(),
+                        book.getAuthor().getFirstName(),
+                        book.getAuthor().getLastName(),
+                        book.getAuthor().getEmail(),
+                        book.getAuthor().getContactNo()));
     }
 
     @Override
@@ -62,7 +77,7 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public List<BookResponseDTO> searchBooksByAuthor(String email) {
-        Author author = authorService.getAuthor(email);
+        Author author = authorRepository.findAuthorByEmail(email).orElseThrow(()-> new NoSuchElementException("Author doesn't exists!"));
         List<Book> booksByAuthor = searchBooksByAuthor(author);
         return getBookResponseDTOList(booksByAuthor);
     }
@@ -74,7 +89,7 @@ public class BookServiceImpl implements BookService {
     @Override
     public BookResponseDTO getBook(String isbn) {
         Book book = bookRepository.findByIsbn(isbn).orElseThrow(()->new NoSuchElementException("Book doesn't exists"));
-        return new BookResponseDTO(book.getIsbn(), book.getCategory(), book.getTitle(), book.getLikedUsers().size(), book.getAuthor());
+        return convertToBookResponseDTO(book);
     }
 
     @Override
@@ -96,7 +111,7 @@ public class BookServiceImpl implements BookService {
     }
 
     private void saveBook(Book book){
-        if (!authorService.isAuthorExist(book.getAuthor().getEmail()))
+        if (!authorRepository.existsAuthorByEmail(book.getAuthor().getEmail())  )
             throw new IllegalStateException("Author doesn't exist");
 
         if(!new BookCredentialsValidator(book).isBookValid())
@@ -105,10 +120,11 @@ public class BookServiceImpl implements BookService {
         bookRepository.save(book);
     }
 
-
+    // has to update
     @Override
     public void deleteBook(String isbn) {
         Book book = bookRepository.findByIsbn(isbn).orElseThrow(()-> new IllegalStateException("Book doesn't exist"));
+        bookRepository.deleteUserBooksByBookIsbn(book.getIsbn());
         bookRepository.delete(book);
     }
 }

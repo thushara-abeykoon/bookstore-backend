@@ -10,7 +10,6 @@ import lombok.Setter;
 @Entity
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 @Table
 public class Author {
     @Id
@@ -21,13 +20,6 @@ public class Author {
     private String lastName;
     private String email;
     private String contactNo;
-
-    public Author(String firstName, String lastName, String email, String contactNo) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.contactNo = contactNo;
-    }
 
     @Override
     public String toString() {

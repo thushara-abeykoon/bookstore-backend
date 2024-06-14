@@ -1,5 +1,7 @@
 package com.silva.bookstore.controller;
 
+import com.silva.bookstore.dto.AuthorRequestDTO;
+import com.silva.bookstore.dto.AuthorResponseDTO;
 import com.silva.bookstore.model.Author;
 import com.silva.bookstore.service.AuthorService;
 import org.springframework.http.HttpStatus;
@@ -18,25 +20,25 @@ public class AuthorController {
         this.authorService = authorService;
     }
 
+    // has to update all the request bodies with author request dtos
     @PostMapping(path = "/register")
-    public ResponseEntity<String> addNewAuthor(@RequestBody Author author) {
+    public ResponseEntity<String> addNewAuthor(@RequestBody AuthorRequestDTO author) {
         authorService.addNewAuthor(author);
         return new ResponseEntity<>("registration successful", HttpStatus.CREATED);
     }
 
     @GetMapping(path = "/get-all")
-    public List<Author> getAllAuthors() {
+    public List<AuthorResponseDTO> getAllAuthors() {
         return authorService.getAllAuthors();
     }
 
     @GetMapping(path = "/get/{email}")
-    public ResponseEntity<Author> getAuthor(@PathVariable String email) {
-        Author author = authorService.getAuthor(email);
-        return ResponseEntity.ok(author);
+    public AuthorResponseDTO getAuthor(@PathVariable String email) {
+        return authorService.getAuthor(email);
     }
 
     @PutMapping(path = "update/{id}")
-    public ResponseEntity<String> updateAuthor(@RequestBody Author author, @PathVariable long id) {
+    public ResponseEntity<String> updateAuthor(@RequestBody AuthorRequestDTO author, @PathVariable long id) {
         authorService.updateAuthor(author, id);
         return new ResponseEntity<>("update successful", HttpStatus.OK);
     }

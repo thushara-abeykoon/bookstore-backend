@@ -1,17 +1,19 @@
 package com.silva.bookstore.service;
 
+import com.silva.bookstore.dto.AuthorRequestDTO;
+import com.silva.bookstore.dto.AuthorResponseDTO;
 import com.silva.bookstore.model.Author;
 
 import java.util.List;
 
 public interface AuthorService {
-    void addNewAuthor(Author author);
+    void addNewAuthor(AuthorRequestDTO author);
 
-    List<Author> getAllAuthors();
+    List<AuthorResponseDTO> getAllAuthors();
 
-    Author getAuthor(String email);
+    AuthorResponseDTO getAuthor(String email);
 
-    void updateAuthor(Author author, Long id);
+    void updateAuthor(AuthorRequestDTO author, Long id);
 
     void deleteAuthor(String email);
 

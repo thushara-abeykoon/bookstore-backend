@@ -70,6 +70,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void deleteUser(Long userId) {
         UserEntity userEntity = userRepository.findById(userId).orElseThrow(() -> new NoSuchElementException("User not found"));
+        userRepository.deleteUserBooksByUserId(userEntity.getId());
         userRepository.delete(userEntity);
     }
 

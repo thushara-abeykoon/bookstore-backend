@@ -11,5 +11,5 @@ public class BookResponseDTO {
     private String category;
     private String title;
     private Integer likeCount;
-    private Author author;
+    private AuthorResponseDTO author;
 }
